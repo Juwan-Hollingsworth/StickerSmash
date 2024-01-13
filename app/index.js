@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import screenImage from "../assets/images/background-image.png"
 import { StatusBar } from "expo-status-bar";
+import ImageViewer from "../components/ImageViewer";
 
 const PlaceholderImage = require('../assets/images/background-image.png')
 
@@ -10,7 +11,7 @@ export default function Page() {
       <View style={styles.imageContainer}>
         <Text style={styles.title}>Hello World</Text>
         <Text style={styles.subtitle}>This is the first page of your app.</Text>
-        <Image source= {PlaceholderImage} style={styles.image}/>
+       <ImageViewer placeholderImageSource={PlaceholderImage} />
       </View>
       <StatusBar style="auto"/>
     </View>
