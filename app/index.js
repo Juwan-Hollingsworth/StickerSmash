@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import screenImage from "../assets/images/background-image.png"
 import { StatusBar } from "expo-status-bar";
 import ImageViewer from "../components/ImageViewer";
 import Button from "../components/Button";
@@ -8,12 +7,15 @@ import { useState } from "react";
 import CircleButton from "../components/CircleButton";
 import IconButton from "../components/IconButton"
 import EmojiPicker from "../components/EmojiPicker";
+import EmojiList from "../components/EmojiList";
+import EmojiSticker from "../components/EmojiSticker";
 
 
 
 const PlaceholderImage = require('../assets/images/background-image.png')
 
 export default function Page() {
+  const [pickedEmoji, setPickedEmoji] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [showAppOptions, setShowAppOptions] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -31,7 +33,10 @@ export default function Page() {
     setShowAppOptions(false);
   }
   const onAddSticker = ()=> {
-    //to be implemented 
+    setIsModalVisible(true)
+  }
+  const onModalClose = ()=> {
+    setIsModalVisible(false)
   }
   const onSaveImageAsync = async() =>{
     //to be implemented
@@ -42,12 +47,13 @@ export default function Page() {
         {/* <Text style={styles.title}>Hello World</Text>
         <Text style={styles.subtitle}>This is the first page of your app.</Text> */}
        <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
+       {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
       </View>
       {showAppOptions ? (
       <View style={styles.optionsContainer}>
         <View style={styles.optionsRow}>
           <IconButton icon="refresh" label='Reset' onPress={onReset}/>
-          <CircleButton onPress={onAddSticker}/>
+          <CircleButton onPress={onAddSticker} />
       <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync}/>
       </View>
       </View>
@@ -57,6 +63,10 @@ export default function Page() {
         <Button onPress={()=> setShowAppOptions(true)} label="Use this photo"/>
       </View>
       )}
+      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+        {/* Emoji list */}
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+      </EmojiPicker>
       <StatusBar style="auto"/>
     </View>
   );
