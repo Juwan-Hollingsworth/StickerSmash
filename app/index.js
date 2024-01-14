@@ -11,6 +11,7 @@ import { useState } from "react";
 const PlaceholderImage = require('../assets/images/background-image.png')
 
 export default function Page() {
+  const [showAppOptions, setShowAppOptions] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   
   const pickImageAsync = async () => {
@@ -18,6 +19,7 @@ export default function Page() {
 
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
+      setShowAppOptions(true)
     }else {alert('You did not select any image')}
   }
   return (
@@ -27,15 +29,16 @@ export default function Page() {
         <Text style={styles.subtitle}>This is the first page of your app.</Text> */}
        <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
       </View>
+      {showAppOptions ? (<View/>):(
       <View style={styles.footerContainer}>
         <Button theme="primary" label="Choose a photo" onPress={pickImageAsync}/>
-        <Button label="Use this photo"/>
-      </View>
+        <Button onPress={()=> setShowAppOptions(true)} label="Use this photo"/>
+      </View>)}
       <StatusBar style="auto"/>
     </View>
   );
 }
-
+//Styling the main page of the App
 const styles = StyleSheet.create({
  
   container: {
